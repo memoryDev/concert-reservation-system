@@ -1,0 +1,51 @@
+### JetBrains (IntelliJ) ###
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+gen/
+
+### Build Tools (Gradle) ###
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+bin/
+obj/
+
+### QueryDSL ###
+# QueryDSL QClass 생성 경로 (build/ 내부로 설정했다면 build/가 이미 제외하므로 생략 가능)
+src/main/generated/
+
+### OS ###
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+desktop.ini
+
+### Docker & Database Data (중요!) ###
+# 도커 볼륨으로 생성된 데이터 폴더들
+data/
+mariadb_data/
+redis_data/
+*.db
+
+### Application & Logs ###
+*.log
+logs/
+temp/
+tmp/
+
+### Security & Local Config (보안 필수!) ###
+# 민감한 정보가 담긴 파일들
+application-secret.yml
+application-prod.yml
+.env
+.env.local
+
+### Backup Files ###
+*.bak
+*.swp
+*~
+*.tmp

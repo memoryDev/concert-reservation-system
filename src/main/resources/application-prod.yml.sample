@@ -1,0 +1,38 @@
+# =================================================================
+# [ 가이드 ]
+# 1. 이 파일을 복사하여 'application-prod.yml'로 이름을 변경하세요.
+# 2. 아래의 'YOUR_...' 부분을 본인의 로컬 환경 설정에 맞게 수정하세요.
+# 3. 'application-prod.yml'은 .gitignore에 등록되어 보안상 커밋되지 않습니다.
+# =================================================================
+
+server:
+  port: {YOUR_SERVER_PORT}
+
+spring:
+  # mariadb 설정
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: ${db.prod.url}
+    username: ${db.prod.username}
+    password: ${db.prod.password}
+
+  # redis 설정
+  data:
+    redis:
+      host: {YOUR_REDIS_HOST}
+      port: {YOUR_REDIS_PORT}
+
+  # JPA 설정
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MariaDBDialect
+
+logging:
+  level:
+    org.hibernate.SQL: info
+    org.hibernate.type.descriptor.sql.BasicBinder: info

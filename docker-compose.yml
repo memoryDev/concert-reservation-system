@@ -1,0 +1,29 @@
+services:
+  # 1. MariaDB 설정
+  mariadb:
+    image: mariadb:11.4.9
+    container_name: concert-mariadb
+    ports:
+      - "3309:3306"
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=concert_db
+      - MYSQL_USER=concert
+      - MYSQL_PASSWORD=concert
+    volumes:
+      - ./data/mariadb:/var/lib/mysql
+
+  # 2. Redis 설정
+  redis:
+    image: redis:7.2.12-alpine
+    container_name: concert-redis
+    ports:
+      - "6379:6379"
+
+  # 3. Redis Insight (Redis 시각화)
+  redis-insight:
+    image: redis/redisinsight:latest
+    container_name: concert-redis-insight
+    ports:
+      - "8001:8001"
