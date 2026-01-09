@@ -18,9 +18,9 @@
 - [x] **JwtAuthenticationFilter 구현**
     - [x] HTTP Header에서 토큰 추출 로직
     - [x] `SecurityContextHolder`에 인증 정보 저장 로직 구현
-- [ ] **SecurityConfig 설정**
-    - [ ] PasswordEncoder 빈 등록 (BCrypt)
-    - [ ] 필터 체인 구성 (CSRF disable, Session 무상태 설정, Filter 순서 지정)
+- [x] **SecurityConfig 설정**
+    - [x] PasswordEncoder 빈 등록 (BCrypt)
+    - [x] 필터 체인 구성 (CSRF disable, Session 무상태 설정, Filter 순서 지정)
 
 ### 🔴 Phase 4: 테스트 및 검증
 - [ ] 로그인 API 테스트 (토큰 발행 확인)

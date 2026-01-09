@@ -9,5 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
+    Optional<Member> findByIdAndDelStatus(Long id, DelStatus delStatus);
     Optional<Member> findByUserIdAndDelStatus(String userId, DelStatus delStatus);
 }
