@@ -6,9 +6,9 @@
 - [x] 작업용 Feature 브랜치 생성 및 원격 push (`feat/security-jwt-auth`)
 
 ### 🟡 Phase 2: 인증 객체 및 유틸리티 구현
-- [ ] **CustomUserDetails & Service 구현**
-    - [ ] `Member` 엔티티를 포함하는 `PrincipalDetails` 클래스 생성 (PK 필드 포함)
-    - [ ] `UserDetailsService` 구현 (DB에서 회원 조회 및 Details 반환 로직)
+- [x] **CustomUserDetails & Service 구현**
+    - [x] `Member` 엔티티를 포함하는 `PrincipalDetails` 클래스 s 반환 로생성 (PK 필드 포함)
+    - [x] `UserDetailsService` 구현 (DB에서 회원 조회 및 Detail직)
 - [ ] **JwtTokenProvider 구현**
     - [ ] `createToken`: `Authentication` 정보를 기반으로 JWT 발행 (CustomUserDetails 활용)
     - [ ] `validateToken`: 토큰 위변조 및 만료 시간 검증 (Try-Catch 예외 처리)
