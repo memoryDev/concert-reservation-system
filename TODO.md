@@ -10,9 +10,9 @@
     - [x] `Member` 엔티티를 포함하는 `PrincipalDetails` 클래스 s 반환 로생성 (PK 필드 포함)
     - [x] `UserDetailsService` 구현 (DB에서 회원 조회 및 Detail직)
 - [ ] **JwtTokenProvider 구현**
-    - [ ] `createToken`: `Authentication` 정보를 기반으로 JWT 발행 (CustomUserDetails 활용)
-    - [ ] `validateToken`: 토큰 위변조 및 만료 시간 검증 (Try-Catch 예외 처리)
-    - [ ] `getAuthentication`: 토큰을 파싱하여 `Authentication` 객체로 복구
+    - [x] `createToken`: `Authentication` 정보를 기반으로 JWT 발행 (CustomUserDetails 활용)
+    - [x] `validateToken`: 토큰 위변조 및 만료 시간 검증 (Try-Catch 예외 처리)
+    - [x] `getAuthentication`: 토큰을 파싱하여 `Authentication` 객체로 복구
 
 ### 🟠 Phase 3: 시큐리티 필터 체인 연결
 - [ ] **JwtAuthenticationFilter 구현**
