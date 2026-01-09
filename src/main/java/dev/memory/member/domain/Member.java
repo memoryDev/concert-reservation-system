@@ -54,5 +54,15 @@ public class Member {
         delStatus = DelStatus.N;
     }
 
+    public static Member createMember(String userId, String password, String nickname, String name, MemberRole role) {
+        Member member = new Member();
+        member.userId = userId;
+        member.password = password;
+        member.nickname = nickname;
+        member.name = name;
+        member.role = role;
+        return member;
+    }
+
 
 }
