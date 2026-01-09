@@ -15,9 +15,9 @@
     - [x] `getAuthentication`: 토큰을 파싱하여 `Authentication` 객체로 복구
 
 ### 🟠 Phase 3: 시큐리티 필터 체인 연결
-- [ ] **JwtAuthenticationFilter 구현**
-    - [ ] HTTP Header에서 토큰 추출 로직
-    - [ ] `SecurityContextHolder`에 인증 정보 저장 로직 구현
+- [x] **JwtAuthenticationFilter 구현**
+    - [x] HTTP Header에서 토큰 추출 로직
+    - [x] `SecurityContextHolder`에 인증 정보 저장 로직 구현
 - [ ] **SecurityConfig 설정**
     - [ ] PasswordEncoder 빈 등록 (BCrypt)
     - [ ] 필터 체인 구성 (CSRF disable, Session 무상태 설정, Filter 순서 지정)
