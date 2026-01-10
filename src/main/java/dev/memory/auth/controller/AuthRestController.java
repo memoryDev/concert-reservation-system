@@ -24,6 +24,8 @@ public class AuthRestController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
 
+        System.out.println(request);
+
         // TODO 유효성 검사(체크했다고 침)
         TokenInfo tokenInfo = authService.login(request);
 

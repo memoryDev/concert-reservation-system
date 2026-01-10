@@ -25,6 +25,7 @@ public class ConcertSchedule {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "concert_id")
+    @Comment("콘서트 고유 ID")
     private Concert concert;
 
     @Comment("총 좌석수")
@@ -35,6 +36,15 @@ public class ConcertSchedule {
 
     @Comment("회당 최대 선택 단위")
     private Integer maxPurchaseCount;
+
+    @Comment("공연 날짜(yyyy-MM-dd)")
+    private LocalDateTime concertDate;
+
+    @Comment("공연 시작 시간(HH:mm)")
+    private LocalDateTime startTime;
+
+    @Comment("공연 종료 시간(HH:mm)")
+    private LocalDateTime endTime;
 
     @Comment("예매 시작일")
     private LocalDateTime scheduleStart;
