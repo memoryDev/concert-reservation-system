@@ -1,5 +1,6 @@
 package dev.memory.config;
 
+import dev.memory.common.exception.CustomAuthenticationEntryPoint;
 import dev.memory.common.jwt.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -36,6 +38,10 @@ public class SecurityConfig {
 
                 // 2. 세션 사용 안함
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+                .exceptionHandling(exception ->
+                        exception.authenticationEntryPoint(customAuthenticationEntryPoint) // 401 에러 담당)
+                )
 
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/v1/auth/login", "/api/v1/members/join").permitAll()
