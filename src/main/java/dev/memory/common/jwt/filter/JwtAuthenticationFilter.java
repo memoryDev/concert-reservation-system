@@ -1,5 +1,6 @@
 package dev.memory.common.jwt.filter;
 
+import dev.memory.common.exception.CustomException;
 import dev.memory.common.jwt.JwtProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -28,10 +29,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = resolveToken(request);
 
         // 2. 토큰이 있고(null이 아닌), 유효한지 검사
-        if (token != null && jwtProvider.validateToken(token)) {
-            // 인증 객체 저장
-            Authentication authentication = jwtProvider.getAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        if (token != null) {
+
+            // 토큰 유효성 검증
+            try {
+                jwtProvider.validateToken(token);
+
+                // 인증 객체 저장
+                Authentication authentication = jwtProvider.getAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            } catch (CustomException e) {
+                logger.debug("토큰 유효성 실패!!");
+            }
         }
 
         // 3. (로그인 했거나 안했어도) 다음 필터로 무조건 넘기기

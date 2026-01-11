@@ -1,5 +1,6 @@
 package dev.memory.common.jwt;
 
+import dev.memory.common.exception.CustomException;
 import dev.memory.common.security.PrincipalDetails;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -7,6 +8,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -84,25 +86,26 @@ public class JwtProvider {
      * 토큰을 파싱하여 위조 여부, 만료 여부 등를 확인합니다.
      *
      * @param token 검증할 JWT 토큰
-     * @return 유효하면 true, 유효하지 않으면 false
+     * @return 유효하지 않으면 예외 발생
      */
-    public boolean validateToken(String token) {
+    public void validateToken(String token) {
 
         try {
             // 토큰 파싱을 시도하여 예외가 발생하지 않으면 유효한 토큰
             getClaims(token);
-            return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("잘못된 JWT 서명입니다.");
+            log.debug("잘못된 JWT 서명입니다.");
+            throw new CustomException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.");
         } catch (ExpiredJwtException e) {
-            log.info("만료된 JWT 토큰입니다.");
+            log.debug("만료된 JWT 토큰입니다.");
+            throw new CustomException(HttpStatus.UNAUTHORIZED, "만료된 토큰입니다.");
         } catch (UnsupportedJwtException e) {
-            log.info("지원되지 않는 JWT 토큰입니다.");
+            log.debug("지원되지 않는 JWT 토큰입니다.");
+            throw new CustomException(HttpStatus.UNAUTHORIZED, "지원되지 않는 토큰 형식입니다.");
         } catch (IllegalArgumentException e) {
-            log.info("JWT 토큰이 잘못되었습니다.");
+            log.debug("JWT 토큰이 잘못되었습니다.");
+            throw new CustomException(HttpStatus.UNAUTHORIZED, "토큰이 비어있거나 잘못되었습니다.");
         }
-
-        return false;
     }
 
     /**

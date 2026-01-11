@@ -33,5 +33,8 @@ spring:
 
 logging:
   level:
+
+    dev.memory: debug
+
     org.hibernate.SQL: debug
     org.hibernate.type.descriptor.sql.BasicBinder: trace
