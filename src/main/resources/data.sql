@@ -10,3 +10,6 @@ values('test3', '$2a$10$Vrlw6B8ugULkGsQ1Tk/0d.ziwlDPv87BDf1ISLgynKC35KtxcJ3aW', 
 
 INSERT INTO member(user_id, password, name, nickname, role, del_status, created_at)
 values('test4', '$2a$10$Vrlw6B8ugULkGsQ1Tk/0d.ziwlDPv87BDf1ISLgynKC35KtxcJ3aW', '테스트4', '닉네임4', 'ROLE_USER', 'N', now());
+
+INSERT INTO member(user_id, password, name, nickname, role, del_status, created_at)
+values('admin', '$2a$10$Vrlw6B8ugULkGsQ1Tk/0d.ziwlDPv87BDf1ISLgynKC35KtxcJ3aW', '관리자', '관리자', 'ROLE_ADMIN', 'N', now());

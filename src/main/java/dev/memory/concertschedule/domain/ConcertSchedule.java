@@ -65,4 +65,17 @@ public class ConcertSchedule {
         delStatus = DelStatus.N;
     }
 
+    public static ConcertSchedule createConcertSchedule(Concert concert, Integer totalSeats, Integer minPurchaseCount, Integer maxPurchaseCount, LocalDateTime concertDate, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime scheduleStart, LocalDateTime scheduleEnd) {
+        ConcertSchedule concertSchedule = new ConcertSchedule();
+        concertSchedule.concert = concert;
+        concertSchedule.totalSeats = totalSeats;
+        concertSchedule.minPurchaseCount = minPurchaseCount;
+        concertSchedule.maxPurchaseCount = maxPurchaseCount;
+        concertSchedule.concertDate = concertDate;
+        concertSchedule.startTime = startTime;
+        concertSchedule.endTime = endTime;
+        concertSchedule.scheduleStart = scheduleStart;
+
+        return concertSchedule;
+    }
 }

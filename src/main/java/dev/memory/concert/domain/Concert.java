@@ -1,6 +1,7 @@
 package dev.memory.concert.domain;
 
 import dev.memory.common.enums.DelStatus;
+import dev.memory.concert.dto.ConcertCreateRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -42,6 +43,13 @@ public class Concert {
     public void prePersist() {
         createdAt = LocalDateTime.now();
         delStatus = DelStatus.N;
+    }
+
+    public static Concert createConcert(String name, Integer price) {
+        Concert concert = new Concert();
+        concert.name = name;
+        concert.price = price;
+        return concert;
     }
 
 
