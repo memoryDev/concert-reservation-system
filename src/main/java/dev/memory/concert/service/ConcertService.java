@@ -2,6 +2,7 @@ package dev.memory.concert.service;
 
 import dev.memory.concert.domain.Concert;
 import dev.memory.concert.dto.ConcertCreateRequest;
+import dev.memory.concert.dto.ConcertResponse;
 import dev.memory.concert.dto.ConcertScheduleCreateRequest;
 import dev.memory.concert.repository.ConcertRepository;
 import dev.memory.concertschedule.domain.ConcertSchedule;
@@ -10,6 +11,8 @@ import dev.memory.seat.domain.Seat;
 import dev.memory.seat.repository.SeatRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,5 +70,10 @@ public class ConcertService {
 
             seatRepository.saveAll(seats);
         }
+    }
+
+    public Page<ConcertResponse> getConcerts(Pageable pageable) {
+        // 1. 콘서트 목록 조회
+        return concertRepository.getContents(pageable);
     }
 }

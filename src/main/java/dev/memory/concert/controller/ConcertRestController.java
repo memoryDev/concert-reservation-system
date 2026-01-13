@@ -1,16 +1,19 @@
 package dev.memory.concert.controller;
 
 import dev.memory.concert.dto.ConcertCreateRequest;
+import dev.memory.concert.dto.ConcertResponse;
 import dev.memory.concert.service.ConcertService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,11 +31,18 @@ public class ConcertRestController {
         // TODO 유효성 검증 했다는 가정하에
         Long id = Long.parseLong(user.getUsername());
 
-        System.out.println("===== request =====");
-        System.out.println(request);
-
         concertService.createConcertByAdmin(id, request);
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping()
+    public ResponseEntity<Page<ConcertResponse>> getConcerts(
+            @PageableDefault(size = 10) Pageable pageable
+    ){
+
+        Page<ConcertResponse> page = concertService.getConcerts(pageable);
+
+        return ResponseEntity.ok().body(page);
     }
 }
