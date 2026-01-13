@@ -45,6 +45,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/v1/auth/login", "/api/v1/members/join").permitAll()
+                                .requestMatchers("/api/v1/concerts").hasRole("ADMIN")
                                 .anyRequest().authenticated())
 
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

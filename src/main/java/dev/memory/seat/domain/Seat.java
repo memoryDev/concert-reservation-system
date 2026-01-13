@@ -42,4 +42,11 @@ public class Seat {
         createdAt = LocalDateTime.now();
         delStatus = DelStatus.N;
     }
+
+    public static Seat createSeat(ConcertSchedule concertSchedule, String seatLabel) {
+        Seat seat = new Seat();
+        seat.concertSchedule = concertSchedule;
+        seat.seatLabel = seatLabel;
+        return seat;
+    }
 }
