@@ -28,6 +28,9 @@ public class ConcertRestController {
         // TODO 유효성 검증 했다는 가정하에
         Long id = Long.parseLong(user.getUsername());
 
+        System.out.println("===== request =====");
+        System.out.println(request);
+
         concertService.createConcertByAdmin(id, request);
 
         return ResponseEntity.ok().build();

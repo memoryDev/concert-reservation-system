@@ -27,7 +27,7 @@ public class ConcertScheduleCreateRequest {
     private LocalDateTime scheduleStart; // 예매 시작일(yyyy-MM-dd HH:mm)
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
-    private LocalDateTime scheduleEnd; // 예매 시작일(yyyy-MM-dd HH:mm)
+    private LocalDateTime scheduleEnd; // 예매 종료일(yyyy-MM-dd HH:mm)
     private Integer totalSeats; // 총 좌석수
     private Integer minPurchaseCount; // 회당 최소 선택 단위
     private Integer maxPurchaseCount; // 회당 최대 선택 단위

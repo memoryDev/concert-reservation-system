@@ -9,7 +9,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Comment("콘서트 일정 테이블")
@@ -38,13 +41,13 @@ public class ConcertSchedule {
     private Integer maxPurchaseCount;
 
     @Comment("공연 날짜(yyyy-MM-dd)")
-    private LocalDateTime concertDate;
+    private LocalDate concertDate;
 
     @Comment("공연 시작 시간(HH:mm)")
-    private LocalDateTime startTime;
+    private LocalTime startTime;
 
     @Comment("공연 종료 시간(HH:mm)")
-    private LocalDateTime endTime;
+    private LocalTime endTime;
 
     @Comment("예매 시작일")
     private LocalDateTime scheduleStart;
@@ -65,16 +68,17 @@ public class ConcertSchedule {
         delStatus = DelStatus.N;
     }
 
-    public static ConcertSchedule createConcertSchedule(Concert concert, Integer totalSeats, Integer minPurchaseCount, Integer maxPurchaseCount, LocalDateTime concertDate, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime scheduleStart, LocalDateTime scheduleEnd) {
+    public static ConcertSchedule createConcertSchedule(Concert concert, Integer totalSeats, Integer minPurchaseCount, Integer maxPurchaseCount, LocalDate concertDate, LocalTime startTime, LocalTime endTime, LocalDateTime scheduleStart, LocalDateTime scheduleEnd) {
         ConcertSchedule concertSchedule = new ConcertSchedule();
         concertSchedule.concert = concert;
         concertSchedule.totalSeats = totalSeats;
         concertSchedule.minPurchaseCount = minPurchaseCount;
         concertSchedule.maxPurchaseCount = maxPurchaseCount;
         concertSchedule.concertDate = concertDate;
-        concertSchedule.startTime = startTime;
-        concertSchedule.endTime = endTime;
-        concertSchedule.scheduleStart = scheduleStart;
+        concertSchedule.startTime = startTime.truncatedTo(ChronoUnit.MINUTES);
+        concertSchedule.endTime = endTime.truncatedTo(ChronoUnit.MINUTES);
+        concertSchedule.scheduleStart = scheduleStart.truncatedTo(ChronoUnit.MINUTES);
+        concertSchedule.scheduleEnd = scheduleEnd.truncatedTo(ChronoUnit.MINUTES);
 
         return concertSchedule;
     }
