@@ -2,6 +2,7 @@ package dev.memory.concert.domain;
 
 import dev.memory.common.enums.DelStatus;
 import dev.memory.concert.dto.ConcertCreateRequest;
+import dev.memory.concertschedule.domain.ConcertSchedule;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "concert")
@@ -38,6 +41,9 @@ public class Concert {
     @Enumerated(EnumType.STRING)
     @Comment("탈퇴여부(Y/N)")
     private DelStatus delStatus = DelStatus.N;
+
+    @OneToMany(mappedBy = "concert", cascade = CascadeType.ALL)
+    private List<ConcertSchedule> schedules = new ArrayList<>();
 
     @PrePersist
     public void prePersist() {

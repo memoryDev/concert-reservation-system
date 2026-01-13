@@ -5,6 +5,7 @@ import dev.memory.common.jwt.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -43,10 +44,18 @@ public class SecurityConfig {
                         exception.authenticationEntryPoint(customAuthenticationEntryPoint) // 401 에러 담당)
                 )
 
-                .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/api/v1/auth/login", "/api/v1/members/join").permitAll()
-                                .requestMatchers("/api/v1/concerts").hasRole("ADMIN")
-                                .anyRequest().authenticated())
+                .authorizeHttpRequests(auth -> auth
+                        // 1. 로그인, 회원가입
+                        .requestMatchers("/api/v1/auth/login", "/api/v1/members/join").permitAll()
+
+                        // 2. 콘서트 조회
+                        .requestMatchers(HttpMethod.GET, "/api/v1/concerts").permitAll()
+
+                        // 3. 콘서트 생성(관리자만)
+                        .requestMatchers(HttpMethod.POST, "/api/v1/concerts").hasRole("ADMIN")
+
+                        .anyRequest().authenticated()
+                )
 
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
