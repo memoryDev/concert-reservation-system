@@ -7,7 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -53,5 +56,29 @@ public class Coupon {
     @PrePersist
     public void prePersist() {
         createdAt = LocalDateTime.now();
+    }
+
+    public static Coupon createCoupon(String name, Integer discountAmount, Integer totalQuantity, Integer validDays, LocalDateTime issueStartDate, LocalDateTime issueEndDate, Boolean isActive) {
+        Coupon coupon = new Coupon();
+        coupon.name = name;
+        coupon.discountAmount = discountAmount;
+        coupon.totalQuantity = totalQuantity;
+        coupon.validDays = validDays;
+        coupon.issueStartDate = issueStartDate;
+        coupon.issueEndDate = issueEndDate;
+        coupon.isActive = isActive;
+        coupon.code = coupon.generateCode();
+
+        return coupon;
+    }
+
+    public void updateCoupon(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    private String generateCode() {
+        String datePart = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        String uuidPart = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        return datePart + "-" + uuidPart;
     }
 }

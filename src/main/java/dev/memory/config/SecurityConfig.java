@@ -54,6 +54,9 @@ public class SecurityConfig {
                         // 3. 콘서트 생성(관리자만)
                         .requestMatchers(HttpMethod.POST, "/api/v1/concerts").hasRole("ADMIN")
 
+                        // 4. 쿠폰 생성(관리자만
+                        .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
 
