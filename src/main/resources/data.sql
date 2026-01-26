@@ -1,15 +1,11 @@
--- member 생성
-INSERT INTO member(user_id, password, name, nickname, role, del_status, created_at)
-values('test1', '$2a$10$Vrlw6B8ugULkGsQ1Tk/0d.ziwlDPv87BDf1ISLgynKC35KtxcJ3aW', '테스트1', '닉네임1', 'ROLE_USER','N', now());
-
-INSERT INTO member(user_id, password, name, nickname, role, del_status, created_at)
-values('test2', '$2a$10$Vrlw6B8ugULkGsQ1Tk/0d.ziwlDPv87BDf1ISLgynKC35KtxcJ3aW', '테스트2', '닉네임2', 'ROLE_USER','N', now());
-
-INSERT INTO member(user_id, password, name, nickname, role, del_status, created_at)
-values('test3', '$2a$10$Vrlw6B8ugULkGsQ1Tk/0d.ziwlDPv87BDf1ISLgynKC35KtxcJ3aW', '테스트3', '닉네임3', 'ROLE_USER', 'N', now());
-
-INSERT INTO member(user_id, password, name, nickname, role, del_status, created_at)
-values('test4', '$2a$10$Vrlw6B8ugULkGsQ1Tk/0d.ziwlDPv87BDf1ISLgynKC35KtxcJ3aW', '테스트4', '닉네임4', 'ROLE_USER', 'N', now());
-
-INSERT INTO member(user_id, password, name, nickname, role, del_status, created_at)
-values('admin', '$2a$10$Vrlw6B8ugULkGsQ1Tk/0d.ziwlDPv87BDf1ISLgynKC35KtxcJ3aW', '관리자', '관리자', 'ROLE_ADMIN', 'N', now());
+-- 관리자 1~10명 생성
+INSERT INTO member(user_id, password, name, nickname, role, del_status, created_at) VALUES ('admin1', '$2a$10$Vrlw6B8ugULkGsQ1Tk/0d.ziwlDPv87BDf1ISLgynKC35KtxcJ3aW', '관리자1', 'Admin1', 'ROLE_ADMIN', 'N', now());
+INSERT INTO member(user_id, password, name, nickname, role, del_status, created_at) VALUES ('admin2', '$2a$10$Vrlw6B8ugULkGsQ1Tk/0d.ziwlDPv87BDf1ISLgynKC35KtxcJ3aW', '관리자2', 'Admin2', 'ROLE_ADMIN', 'N', now());
+INSERT INTO member(user_id, password, name, nickname, role, del_status, created_at) VALUES ('admin3', '$2a$10$Vrlw6B8ugULkGsQ1Tk/0d.ziwlDPv87BDf1ISLgynKC35KtxcJ3aW', '관리자3', 'Admin3', 'ROLE_ADMIN', 'N', now());
+INSERT INTO member(user_id, password, name, nickname, role, del_status, created_at) VALUES ('admin4', '$2a$10$Vrlw6B8ugULkGsQ1Tk/0d.ziwlDPv87BDf1ISLgynKC35KtxcJ3aW', '관리자4', 'Admin4', 'ROLE_ADMIN', 'N', now());
+INSERT INTO member(user_id, password, name, nickname, role, del_status, created_at) VALUES ('admin5', '$2a$10$Vrlw6B8ugULkGsQ1Tk/0d.ziwlDPv87BDf1ISLgynKC35KtxcJ3aW', '관리자5', 'Admin5', 'ROLE_ADMIN', 'N', now());
+INSERT INTO member(user_id, password, name, nickname, role, del_status, created_at) VALUES ('admin6', '$2a$10$Vrlw6B8ugULkGsQ1Tk/0d.ziwlDPv87BDf1ISLgynKC35KtxcJ3aW', '관리자6', 'Admin6', 'ROLE_ADMIN', 'N', now());
+INSERT INTO member(user_id, password, name, nickname, role, del_status, created_at) VALUES ('admin7', '$2a$10$Vrlw6B8ugULkGsQ1Tk/0d.ziwlDPv87BDf1ISLgynKC35KtxcJ3aW', '관리자7', 'Admin7', 'ROLE_ADMIN', 'N', now());
+INSERT INTO member(user_id, password, name, nickname, role, del_status, created_at) VALUES ('admin8', '$2a$10$Vrlw6B8ugULkGsQ1Tk/0d.ziwlDPv87BDf1ISLgynKC35KtxcJ3aW', '관리자8', 'Admin8', 'ROLE_ADMIN', 'N', now());
+INSERT INTO member(user_id, password, name, nickname, role, del_status, created_at) VALUES ('admin9', '$2a$10$Vrlw6B8ugULkGsQ1Tk/0d.ziwlDPv87BDf1ISLgynKC35KtxcJ3aW', '관리자9', 'Admin9', 'ROLE_ADMIN', 'N', now());
+INSERT INTO member(user_id, password, name, nickname, role, del_status, created_at) VALUES ('admin10', '$2a$10$Vrlw6B8ugULkGsQ1Tk/0d.ziwlDPv87BDf1ISLgynKC35KtxcJ3aW', '관리자10', 'Admin10', 'ROLE_ADMIN', 'N', now());
