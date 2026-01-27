@@ -76,6 +76,23 @@ public class Coupon {
         this.isActive = isActive;
     }
 
+    public void validateIssuePeriod() {
+        LocalDateTime now = LocalDateTime.now();
+
+        // 아직 시작 안 함
+        if (now.isBefore(issueStartDate)) {
+            throw new IllegalStateException("남은 발급 기간이 아닙니다. (시작 전)");
+        }
+        // 이미 끝남
+        if (now.isAfter(issueEndDate)) {
+            throw new IllegalStateException("발급 기간이 종료되었습니다.");
+        }
+    }
+
+    public void increaseIssuedQuantity() {
+        issuedQuantity += 1;
+    }
+
     private String generateCode() {
         String datePart = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String uuidPart = UUID.randomUUID().toString().substring(0, 8).toUpperCase();

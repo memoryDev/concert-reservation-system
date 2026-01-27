@@ -47,4 +47,25 @@ public class MemberCoupon {
     public void prePersist() {
         issuedAt = LocalDateTime.now();
     }
+
+    public static MemberCoupon createMemberCoupon(Member member, Coupon coupon) {
+        MemberCoupon memberCoupon = new MemberCoupon();
+        memberCoupon.member = member;
+        memberCoupon.coupon = coupon;
+
+        LocalDateTime issuedAt = LocalDateTime.now();
+        memberCoupon.expireAt = calculateExpireAt(issuedAt, coupon.getValidDays());
+        memberCoupon.isUsed = false;
+        return memberCoupon;
+    }
+
+    private static LocalDateTime calculateExpireAt(LocalDateTime issuedAt, Integer validDays) {
+
+        if (validDays == null) {
+            return null;
+        }
+
+        return issuedAt.plusDays(validDays)
+                .withHour(23).withMinute(59).withSecond(59);
+    }
 }
