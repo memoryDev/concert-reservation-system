@@ -1,6 +1,7 @@
 package dev.memory.common.jwt;
 
 import dev.memory.common.exception.CustomException;
+import dev.memory.common.exception.ErrorCode;
 import dev.memory.common.security.PrincipalDetails;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -57,7 +58,7 @@ public class JwtProvider {
 
         // 2. 인증 정보에서 Principal 꺼내기
         if (!(authentication.getPrincipal() instanceof PrincipalDetails principal)) {
-            throw new RuntimeException("인증 정보가 올바르지 않습니다.");
+            throw new CustomException(ErrorCode.UNAUTHORIZED_ACCESS);
         }
 
         // 3. 만료 시간 설정
@@ -95,16 +96,16 @@ public class JwtProvider {
             getClaims(token);
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.debug("잘못된 JWT 서명입니다.");
-            throw new CustomException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.");
+            throw new CustomException(ErrorCode.UNAUTHORIZED_ACCESS);
         } catch (ExpiredJwtException e) {
             log.debug("만료된 JWT 토큰입니다.");
-            throw new CustomException(HttpStatus.UNAUTHORIZED, "만료된 토큰입니다.");
+            throw new CustomException(ErrorCode.SESSION_EXPIRED);
         } catch (UnsupportedJwtException e) {
             log.debug("지원되지 않는 JWT 토큰입니다.");
-            throw new CustomException(HttpStatus.UNAUTHORIZED, "지원되지 않는 토큰 형식입니다.");
+            throw new CustomException(ErrorCode.SESSION_EXPIRED);
         } catch (IllegalArgumentException e) {
             log.debug("JWT 토큰이 잘못되었습니다.");
-            throw new CustomException(HttpStatus.UNAUTHORIZED, "토큰이 비어있거나 잘못되었습니다.");
+            throw new CustomException(ErrorCode.EMPTY_TOKEN);
         }
     }
 
@@ -135,7 +136,7 @@ public class JwtProvider {
         Claims claims = getClaims(token);
 
         if (claims.get("auth") == null) {
-            throw new RuntimeException("권한 정보가 없는 토큰 입니다.");
+            throw new CustomException(ErrorCode.ACCESS_DENIED);
         }
 
         // 2. 클레임에서 권한 정보 가져오기 (문자열->리스트 변환)

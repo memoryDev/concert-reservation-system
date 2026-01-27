@@ -1,5 +1,7 @@
 package dev.memory.coupon.facade;
 
+import dev.memory.common.exception.CustomException;
+import dev.memory.common.exception.ErrorCode;
 import dev.memory.coupon.service.UserCouponService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +30,7 @@ public class CouponIssueFacade {
 
             if (!available) {
                 log.info("락 획득 실패 - couponId: {}", couponId);
-                throw new RuntimeException("접속자가 많아 처리가 지연되고 있습니다.");
+                throw new CustomException(ErrorCode.SERVER_BUSY);
             }
 
             // 3. 실제 비즈니스 로직 실행

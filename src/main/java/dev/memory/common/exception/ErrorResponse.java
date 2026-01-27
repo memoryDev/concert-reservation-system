@@ -2,18 +2,30 @@ package dev.memory.common.exception;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
 public class ErrorResponse {
 
-    private int status;
-    private String error;
-    private String message;
+    private final LocalDateTime timestamp = LocalDateTime.now();
+    private final int status;
+    private final String error;
+    private final String code;
+    private final String message;
 
-    public static ResponseEntity<ErrorResponse> toResponseEntity(int status, String error, String message) {
-        return ResponseEntity.status(status).body(ErrorResponse.builder().status(status).error(error).message(message).build());
+    public static ResponseEntity<ErrorResponse> toResponseEntity(ErrorCode errorCode) {
+        return ResponseEntity
+                .status(errorCode.getStatus())
+                .body(ErrorResponse.builder()
+                        .status(errorCode.getStatus().value())
+                        .error(errorCode.getStatus().name()) // 예: "UNAUTHORIZED"
+                        .code(errorCode.getCode())           // 예: "A001"
+                        .message(errorCode.getMessage())     // 예: "세션이 만료되었습니다."
+                        .build());
     }
 
 }

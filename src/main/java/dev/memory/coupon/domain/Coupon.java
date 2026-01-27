@@ -1,5 +1,7 @@
 package dev.memory.coupon.domain;
 
+import dev.memory.common.exception.CustomException;
+import dev.memory.common.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -81,11 +83,11 @@ public class Coupon {
 
         // 아직 시작 안 함
         if (now.isBefore(issueStartDate)) {
-            throw new IllegalStateException("남은 발급 기간이 아닙니다. (시작 전)");
+            throw new CustomException(ErrorCode.COUPON_NOT_STARTED);
         }
         // 이미 끝남
         if (now.isAfter(issueEndDate)) {
-            throw new IllegalStateException("발급 기간이 종료되었습니다.");
+            throw new CustomException(ErrorCode.COUPON_EXPIRED);
         }
     }
 

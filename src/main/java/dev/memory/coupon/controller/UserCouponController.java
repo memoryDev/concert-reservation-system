@@ -1,5 +1,7 @@
 package dev.memory.coupon.controller;
 
+import dev.memory.common.exception.CustomException;
+import dev.memory.common.exception.ErrorCode;
 import dev.memory.coupon.dto.CouponZoneResponse;
 import dev.memory.coupon.facade.CouponIssueFacade;
 import dev.memory.coupon.service.UserCouponService;
@@ -38,7 +40,7 @@ public class UserCouponController {
     public ResponseEntity<Void> issueCoupon(@AuthenticationPrincipal User user, @PathVariable("couponId") Long couponId) throws BadRequestException {
 
         if (couponId == null || couponId == 0) {
-            throw new BadRequestException("쿠폰이 존재하지 않습니다.");
+            throw new CustomException(ErrorCode.COUPON_NOT_FOUND);
         }
 
         couponIssueFacade.issue(Long.parseLong(user.getUsername()), couponId);

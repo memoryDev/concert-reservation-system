@@ -42,13 +42,14 @@ public class AdminCouponController {
     @PutMapping("/{id}/status")
     public ResponseEntity<Void> updateCouponStatus(@PathVariable Long id, @RequestBody CouponStatusUpdateRequest request) {
 
-        if (id == null || id == 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.");
-        }
-
-        if (request.getIsActive() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.");
-        }
+        // TODO
+//        if (id == null || id == 0) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.");
+//        }
+//
+//        if (request.getIsActive() == null) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.");
+//        }
 
         adminCouponService.updateCouponStatus(id, request);
 
