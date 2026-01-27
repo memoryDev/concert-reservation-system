@@ -25,10 +25,6 @@ public class MemberRestController {
     public ResponseEntity<MemberJoinResponse> join(@RequestBody MemberJoinRequest request) {
 
         // TODO 유효성 검사 체크 완료
-
-        System.out.println("==== request ====");
-        System.out.println(request);
-
         Long createdId = memberService.join(request);
 
         return ResponseEntity.ok().body(MemberJoinResponse.builder().createdId(createdId).build());

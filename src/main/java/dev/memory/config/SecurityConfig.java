@@ -46,7 +46,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         // 1. 로그인, 회원가입
-                        .requestMatchers("/api/v1/auth/login", "/api/v1/members/join").permitAll()
+                        .requestMatchers("/api/v1/auth/login", "/api/v1/members/join", "/api/v1/coupons/issuable").permitAll()
 
                         // 2. 콘서트 조회
                         .requestMatchers(HttpMethod.GET, "/api/v1/concerts").permitAll()
