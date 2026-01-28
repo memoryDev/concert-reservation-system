@@ -3,11 +3,10 @@ package dev.memory.member.controller;
 import dev.memory.member.dto.MemberJoinRequest;
 import dev.memory.member.dto.MemberJoinResponse;
 import dev.memory.member.service.MemberService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +21,7 @@ public class MemberRestController {
     private final MemberService memberService;
 
     @PostMapping("/join")
-    public ResponseEntity<MemberJoinResponse> join(@RequestBody MemberJoinRequest request) {
+    public ResponseEntity<MemberJoinResponse> join(@Valid @RequestBody MemberJoinRequest request) {
 
         // TODO 유효성 검사 체크 완료
         Long createdId = memberService.join(request);

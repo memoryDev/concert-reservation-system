@@ -23,6 +23,7 @@ public enum ErrorCode {
     SESSION_EXPIRED(HttpStatus.UNAUTHORIZED, "A002", "세션이 만료되었습니다. 다시 로그인해주세요."),
     ACCESS_DENIED(HttpStatus.FORBIDDEN, "A003", "접근 권한이 없습니다."),
     EMPTY_TOKEN(HttpStatus.UNAUTHORIZED, "A004", "로그인이 필요한 서비스입니다."),
+    LOGIN_FAILED(HttpStatus.UNAUTHORIZED, "A005", "아이디 또는 비밀번호가 일치하지 않습니다."),
 
     // --- 멤버 관련 (MEMBER) ---
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "M001", "존재하지 않는 회원입니다."),

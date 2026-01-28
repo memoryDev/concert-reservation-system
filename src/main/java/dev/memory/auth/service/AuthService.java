@@ -3,6 +3,8 @@ package dev.memory.auth.service;
 import dev.memory.auth.dto.LoginRequest;
 import dev.memory.auth.dto.MeResponse;
 import dev.memory.common.enums.DelStatus;
+import dev.memory.common.exception.CustomException;
+import dev.memory.common.exception.ErrorCode;
 import dev.memory.common.jwt.JwtProvider;
 import dev.memory.common.jwt.TokenInfo;
 import dev.memory.member.domain.Member;
@@ -24,10 +26,13 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
     private final MemberRepository memberRepository;
 
     public TokenInfo login(LoginRequest request) {
+
+        Member member = memberRepository.findByUserIdAndDelStatus(request.getUserId(), DelStatus.N)
+                .orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND));
+
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(request.getUserId(), request.getPassword());
 
         Authentication authenticate = authenticationManagerBuilder.getObject().authenticate(token);
@@ -40,7 +45,8 @@ public class AuthService {
         // 1. 회원 정보 조회
         Member member = memberRepository.findByIdAndDelStatus(id, DelStatus.N)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException("로그인 정보가 존재하지 않습니다."));
+                        new CustomException(ErrorCode.EMPTY_TOKEN)
+                );
 
         return MeResponse.from(member.getId(), member.getUserId(), member.getName(), member.getNickname());
     }
