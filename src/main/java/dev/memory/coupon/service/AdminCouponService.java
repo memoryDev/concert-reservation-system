@@ -5,10 +5,12 @@ import dev.memory.coupon.dto.CouponCreateRequest;
 import dev.memory.coupon.dto.CouponResponse;
 import dev.memory.coupon.dto.CouponStatusUpdateRequest;
 import dev.memory.coupon.repository.CouponRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -39,7 +41,7 @@ public class AdminCouponService {
     }
 
     @Transactional
-    public void updateCouponStatus(Long id, CouponStatusUpdateRequest request) {
+    public void updateCouponStatus(Long id, @Valid @RequestBody CouponStatusUpdateRequest request) {
 
         // 1. 쿠폰 조회
         Coupon coupon = couponRepository.findById(id)

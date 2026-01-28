@@ -1,9 +1,12 @@
 package dev.memory.coupon.controller;
 
+import dev.memory.common.exception.CustomException;
+import dev.memory.common.exception.ErrorCode;
 import dev.memory.coupon.dto.CouponCreateRequest;
 import dev.memory.coupon.dto.CouponResponse;
 import dev.memory.coupon.dto.CouponStatusUpdateRequest;
 import dev.memory.coupon.service.AdminCouponService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +32,9 @@ public class AdminCouponController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createCoupon(@RequestBody CouponCreateRequest request) {
+    public ResponseEntity<Void> createCoupon(@Valid @RequestBody CouponCreateRequest request) {
 
-        // TODO 유효성 검사
-        validateRequest(request);
+        // validateRequest(request);
 
         adminCouponService.createCoupon(request);
 
@@ -40,51 +42,16 @@ public class AdminCouponController {
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<Void> updateCouponStatus(@PathVariable Long id, @RequestBody CouponStatusUpdateRequest request) {
+    public ResponseEntity<Void> updateCouponStatus(@PathVariable Long id, @Valid @RequestBody CouponStatusUpdateRequest request) {
 
-        // TODO
-//        if (id == null || id == 0) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.");
-//        }
-//
-//        if (request.getIsActive() == null) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.");
-//        }
+        if (id == null || id == 0) {
+            throw new CustomException(ErrorCode.COUPON_NOT_FOUND);
+        }
 
         adminCouponService.updateCouponStatus(id, request);
 
         return ResponseEntity.ok().build();
 
     }
-
-    private void validateRequest(CouponCreateRequest req) {
-        // 1. 필수값(Null) 및 빈 문자열 체크
-        if (!StringUtils.hasText(req.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "쿠폰 이름은 필수입니다.");
-        }
-        if (req.getDiscountAmount() == null || req.getDiscountAmount() <= 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "할인 금액은 0보다 커야 합니다.");
-        }
-        if (req.getTotalQuantity() == null || req.getTotalQuantity() <= 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "발행 수량은 1개 이상이어야 합니다.");
-        }
-        if (req.getValidDays() == null || req.getValidDays() <= 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "유효 기간은 1일 이상이어야 합니다.");
-        }
-        if (req.getIsActive() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "활성 여부를 입력해주세요.");
-        }
-
-        // 2. 날짜 체크
-        if (req.getIssueStartDate() == null || req.getIssueEndDate() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "발급 기간(시작일, 종료일)은 필수입니다.");
-        }
-
-        // 3. 날짜 논리 체크 (종료일이 시작일보다 빨라서는 안 됨)
-        if (req.getIssueEndDate().isBefore(req.getIssueStartDate())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "발급 종료일은 시작일보다 빠를 수 없습니다.");
-        }
-    }
-
 
 }

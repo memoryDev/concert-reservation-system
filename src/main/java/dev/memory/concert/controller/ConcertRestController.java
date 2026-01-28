@@ -3,6 +3,7 @@ package dev.memory.concert.controller;
 import dev.memory.concert.dto.ConcertCreateRequest;
 import dev.memory.concert.dto.ConcertResponse;
 import dev.memory.concert.service.ConcertService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -26,7 +27,7 @@ public class ConcertRestController {
     @PostMapping()
     public ResponseEntity<Void> createConcertByAdmin(
             @AuthenticationPrincipal User user,
-            @RequestBody ConcertCreateRequest request) {
+            @Valid @RequestBody ConcertCreateRequest request) {
 
         // TODO 유효성 검증 했다는 가정하에
         Long id = Long.parseLong(user.getUsername());

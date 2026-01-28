@@ -1,13 +1,20 @@
 package dev.memory.common.exception;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @RestControllerAdvice
 @Slf4j
@@ -24,18 +31,16 @@ public class GlobalExceptionHandler {
     // 2. DTO @Valid 유효성 검사 실패 시 발생
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        // 1. 에러 결과에서 첫 번째 FieldError를 추출
         FieldError fieldError = e.getBindingResult().getFieldError();
 
-        // 2. 에러 메시지 조합 (예: "[email] : 이메일 형식이 올바르지 않습니다")
+        // 에러 메시지 추출 (필드명 포함 여부는 취향껏 선택하세요!)
         String errorMessage = fieldError != null
-                ? String.format("[%s] : %s", fieldError.getField(), fieldError.getDefaultMessage())
+                ? fieldError.getDefaultMessage() // "비밀번호는 8자 이상이어야 합니다."만 출력
                 : ErrorCode.INVALID_INPUT.getMessage();
 
-        log.error("Validation Error for Request: {}", errorMessage);
+        log.error("Validation Error: {}", errorMessage);
 
-        // 3. 커스텀 메시지를 담아 응답 전송
-        return ErrorResponse.toResponseEntity(ErrorCode.INVALID_INPUT);
+        return ErrorResponse.toResponseEntity(ErrorCode.INVALID_INPUT, errorMessage);
     }
 
     // 3. QueryDSL / Hibernate 경로 에러 (시스템 에러 성격)
@@ -50,6 +55,37 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleDataException(DataIntegrityViolationException e) {
         log.error("Database Violation: {}", e.getMessage());
         return ErrorResponse.toResponseEntity(ErrorCode.DATABASE_ERROR);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
+        log.error("Login Failed: {}", e.getMessage());
+        return ErrorResponse.toResponseEntity(ErrorCode.LOGIN_FAILED);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+        String errorMessage = ErrorCode.INVALID_INPUT.getMessage();
+
+        if (e.getCause() instanceof InvalidFormatException invalidFormatException) {
+            // 에러가 발생한 필드의 타입 확인
+            Class<?> targetType = invalidFormatException.getTargetType();
+
+            // 타입에 따라 메세지 분기 처리
+            if (targetType.equals(LocalDateTime.class)) {
+                errorMessage = "날짜와 시간 형식이 올바르지 않습니다. (2026-01-01 09:00 형식으로 입력해주세요.)";
+            } else if (targetType.equals(LocalDate.class)) {
+                errorMessage = "날짜 형식이 올바르지 않습니다. (2026-01-01 형식으로 입력해주세요.)";
+            } else if (targetType.equals(LocalTime.class)) {
+                errorMessage = "시간 형식이 올바르지 않습니다. (09:00 형식으로 입력해주세요.)";
+            } else if (targetType.equals(Boolean.class)) {
+                errorMessage = "선택 항목을 확인해 주세요. (예/아니오, 또는 True/False)";
+            }
+
+            log.debug("Parsing Error: {}", errorMessage);
+        }
+
+        return ErrorResponse.toResponseEntity(ErrorCode.INVALID_INPUT, errorMessage);
     }
 
     // 5. 그 외 예상치 못한 모든 최상위 예외

@@ -5,6 +5,7 @@ import dev.memory.auth.dto.LoginResponse;
 import dev.memory.auth.dto.MeResponse;
 import dev.memory.auth.service.AuthService;
 import dev.memory.common.jwt.TokenInfo;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class AuthRestController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
 
         // TODO 유효성 검사(체크했다고 침)
         TokenInfo tokenInfo = authService.login(request);
