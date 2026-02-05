@@ -39,6 +39,17 @@ public enum ErrorCode {
     COUPON_NOT_STARTED(HttpStatus.BAD_REQUEST, "CP06", "쿠폰 발급 시작 전입니다."),
     COUPON_EXPIRED(HttpStatus.BAD_REQUEST, "CP07", "쿠폰 발급 기간이 종료되었습니다."),
 
+    // --- 스케줄 및 예약 (SCHEDULE) ---
+    SCHEDULE_NOT_ACTIVE(HttpStatus.BAD_REQUEST, "SCH01", "현재 예매 가능한 스케줄이 아닙니다."),
+    SCHEDULE_NOT_FOUND(HttpStatus.NOT_FOUND, "SCH02", "존재하지 않는 스케줄입니다."),
+    SEAT_ALREADY_BOOKED(HttpStatus.CONFLICT, "SCH03", "이미 예약된 좌석입니다."),
+    SEAT_NOT_FOUND(HttpStatus.NOT_FOUND, "SCH04", "존재하지 않는 좌석입니다."),
+
+    // --- 대기열 관련 (QUEUE) --- ⬅️ 새로 추가
+    QUEUE_ENTRY_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "Q001", "대기열 진입에 실패했습니다."),
+    NOT_IN_QUEUE(HttpStatus.BAD_REQUEST, "Q002", "대기열에 존재하지 않습니다."),
+    NOT_ACTIVE_USER(HttpStatus.FORBIDDEN, "Q003", "예매 권한이 없습니다. 대기 순서를 기다려주세요."),
+
     // --- 시스템/동시성 관련 (S) ---
     SERVER_BUSY(HttpStatus.SERVICE_UNAVAILABLE, "S002", "접속자가 많아 처리가 지연되고 있습니다. 잠시 후 다시 시도해주세요.");
 

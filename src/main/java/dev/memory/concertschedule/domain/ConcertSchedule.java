@@ -55,6 +55,10 @@ public class ConcertSchedule {
     @Comment("예매 종료일")
     private LocalDateTime scheduleEnd;
 
+    @Enumerated(EnumType.STRING)
+    @Comment("예매 상태(PENDING: 대기, ACTIVE: 활성, CLOSED: 종료)")
+    private BookingStatus bookingStatus;
+
     @Comment("생성일")
     private LocalDateTime createdAt;
 
@@ -66,9 +70,16 @@ public class ConcertSchedule {
     public void prePersist() {
         createdAt = LocalDateTime.now();
         delStatus = DelStatus.N;
+        if (bookingStatus == null) {
+            bookingStatus = BookingStatus.PENDING;
+        }
     }
 
-    public static ConcertSchedule createConcertSchedule(Concert concert, Integer totalSeats, Integer minPurchaseCount, Integer maxPurchaseCount, LocalDate concertDate, LocalTime startTime, LocalTime endTime, LocalDateTime scheduleStart, LocalDateTime scheduleEnd) {
+    public static ConcertSchedule createConcertSchedule(Concert concert, Integer totalSeats,
+                                                        Integer minPurchaseCount, Integer maxPurchaseCount,
+                                                        LocalDate concertDate, LocalTime startTime,
+                                                        LocalTime endTime, LocalDateTime scheduleStart,
+                                                        LocalDateTime scheduleEnd) {
         ConcertSchedule concertSchedule = new ConcertSchedule();
         concertSchedule.concert = concert;
         concertSchedule.totalSeats = totalSeats;
@@ -79,7 +90,23 @@ public class ConcertSchedule {
         concertSchedule.endTime = endTime.truncatedTo(ChronoUnit.MINUTES);
         concertSchedule.scheduleStart = scheduleStart.truncatedTo(ChronoUnit.MINUTES);
         concertSchedule.scheduleEnd = scheduleEnd.truncatedTo(ChronoUnit.MINUTES);
+        concertSchedule.bookingStatus = BookingStatus.PENDING;
 
         return concertSchedule;
+    }
+
+    // 예매 활성화
+    public void activateBooking() {
+        this.bookingStatus = BookingStatus.ACTIVE;
+    }
+
+    // 예매 종료
+    public void closeBooking() {
+        this.bookingStatus = BookingStatus.CLOSED;
+    }
+
+    // 예매 가능 여부 확인
+    public boolean isBookingAvailable() {
+        return this.bookingStatus == BookingStatus.ACTIVE;
     }
 }

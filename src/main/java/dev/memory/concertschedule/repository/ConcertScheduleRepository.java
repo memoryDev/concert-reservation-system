@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ConcertScheduleRepository extends JpaRepository<ConcertSchedule, Long> {
+public interface ConcertScheduleRepository extends JpaRepository<ConcertSchedule, Long>, ConcertScheduleCustom {
 }

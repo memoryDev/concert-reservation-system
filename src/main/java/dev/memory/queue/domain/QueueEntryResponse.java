@@ -1,14 +1,12 @@
-package dev.memory.concert.dto;
+package dev.memory.queue.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConcertScheduleResponse {
-    private Long id;
+public class QueueEntryResponse {
+    private Long rank;
 }
